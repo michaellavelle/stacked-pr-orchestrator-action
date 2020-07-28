@@ -1,6 +1,5 @@
 import {ActionContext} from './action-context'
 const core = require('@actions/core')
-
 const github = require('@actions/github')
 
 export async function stackedPROrchestrator(
@@ -48,7 +47,7 @@ export async function stackedPROrchestrator(
                 repo: github.context.repo.repo,
                 pull_number: pull_number2
             });
-            core.info(`Updated base branch of ${pull_number2} to be ${pr_base_branch}`)
+            core.info(`Updated base branch of PR #${pull_number2} from ${pullObj.data.base.ref} to ${pr_base_branch}`)
         }
     }
 

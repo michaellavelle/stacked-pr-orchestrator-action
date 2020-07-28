@@ -324,12 +324,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.stackedPROrchestrator = void 0;
 const core = __webpack_require__(470);
 const github = __webpack_require__(469);
-const ONE_DAY = 1000 * 60 * 60 * 24;
 function stackedPROrchestrator(actionContext) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const pr_initial = github.context.payload.pull_request;
-            var prNumber;
+            let prNumber;
             if (pr_initial) {
                 prNumber = pr_initial.number;
             }
@@ -353,7 +352,7 @@ function stackedPROrchestrator(actionContext) {
                 repo: github.context.repo.repo,
             };
             const { data: pulls } = yield actionContext.octokit.pulls.list(params);
-            for (let pull in pulls) {
+            for (const pull in pulls) {
                 const pull_number2 = pulls[pull].number;
                 core.debug(`found ${pull_number2}`);
                 const pullParams = {
@@ -369,7 +368,7 @@ function stackedPROrchestrator(actionContext) {
                         repo: github.context.repo.repo,
                         pull_number: pull_number2
                     });
-                    core.info(`Updated base branch of ${pull_number2} to be ${pr_base_branch}`);
+                    core.info(`Updated base branch of PR #${pull_number2} from ${pullObj.data.base.ref} to ${pr_base_branch}`);
                 }
             }
         }
