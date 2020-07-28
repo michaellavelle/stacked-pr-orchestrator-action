@@ -9,7 +9,7 @@ parserOptions:
   ecmaVersion: 11
   sourceType: module
 rules:
-  @typescript-eslint/no-require-imports: warn
+  '@typescript-eslint/no-require-imports': warn
 plugins:
   - '@typescript-eslint'
 rules: {}
