@@ -337,7 +337,7 @@ function stackedPROrchestrator(actionContext) {
                 actionContext.setFailed('No PR');
                 return;
             }
-            core.info(`Checking base branch for PR #${prNumber}`);
+            core.debug(`Checking base branch for PR #${prNumber}`);
             const payload = {
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
@@ -346,7 +346,7 @@ function stackedPROrchestrator(actionContext) {
             const pr = yield actionContext.octokit.pulls.get(Object.assign({}, payload));
             const pr_branch = pr.data.head.ref;
             const pr_base_branch = pr.data.base.ref;
-            core.info(`Obtained branch for PR ${pr_branch}`);
+            core.debug(`Obtained branch for PR ${pr_branch}`);
             const repoInfo = actionContext.context.repo;
             const params = {
                 owner: github.context.repo.owner,
@@ -355,7 +355,7 @@ function stackedPROrchestrator(actionContext) {
             const { data: pulls } = yield actionContext.octokit.pulls.list(params);
             for (let pull in pulls) {
                 const pull_number2 = pulls[pull].number;
-                core.info(`found ${pull_number2}`);
+                core.debug(`found ${pull_number2}`);
                 const pullParams = {
                     owner: github.context.repo.owner,
                     repo: github.context.repo.repo,
@@ -369,7 +369,7 @@ function stackedPROrchestrator(actionContext) {
                         repo: github.context.repo.repo,
                         pull_number: pull_number2
                     });
-                    core.info(`updated base branch of ${pull_number2} to be ${pr_base_branch}`);
+                    core.info(`Updated base branch of ${pull_number2} to be ${pr_base_branch}`);
                 }
             }
         }
