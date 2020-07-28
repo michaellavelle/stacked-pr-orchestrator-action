@@ -12,4 +12,5 @@ plugins:
   - '@typescript-eslint'
 rules: {
  '@typescript-eslint/no-require-imports': warn
+ '@typescript-eslint/no-var-requires': warn
 }
