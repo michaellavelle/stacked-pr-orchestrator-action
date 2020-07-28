@@ -3,14 +3,12 @@ const core = require('@actions/core')
 
 const github = require('@actions/github')
 
-const ONE_DAY = 1000 * 60 * 60 * 24
-
 export async function stackedPROrchestrator(
   actionContext: ActionContext
 ): Promise<void> {
   try {
     const pr_initial = github.context.payload.pull_request
-    var prNumber;
+    let prNumber;
     if (pr_initial) {
         prNumber = pr_initial.number
     }
@@ -34,7 +32,7 @@ export async function stackedPROrchestrator(
         repo: github.context.repo.repo,
     };
     const { data: pulls } = await actionContext.octokit.pulls.list(params)
-    for (let pull in pulls) {
+    for (const pull in pulls) {
         const pull_number2 = pulls[pull].number;
         core.debug(`found ${pull_number2}`);
         const pullParams = {
