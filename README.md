@@ -1,7 +1,6 @@
 # GitHub action to orchestrate the base branches of a stack of chained PRs on merge.
 
-After installation for any PR merge (eg. branch1 -> main) this action will find any other PRs (eg. branch2 -> branch1) which had the branch of the first PR as their base branch,  and will update their base branch
-to be the base branch of the merged PR (eg. main)
+For any PR merge (eg. branch1 -> main) this action will find any other PRs raised on branches of the same fork (eg. branch2 -> branch1) which had the branch of the first PR as their base branch,  and will update their base branch to be the base branch of the merged PR (eg. main)
 
 This allows a chain of PRs to be managed automatically.
 
