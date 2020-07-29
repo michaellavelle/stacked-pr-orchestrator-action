@@ -40,7 +40,17 @@ export async function stackedPROrchestrator(
             pull_number: pull_number2
         };
         const pullObj = await actionContext.octokit.pulls.get(Object.assign({}, pullParams))
-        if (pullObj.data.base.ref == pr_branch) {
+        let hasLabel = false
+        for (const label in pullObj.data.labels) {
+            const label_name = pullObj.data.labels[label].name
+            if (label_name.lastIndexOf("stacked:", 0) === 0) {
+              if (label_name.substring(8) == pr_base_branch) {
+                hasLabel = true
+              }
+            }
+        }
+
+        if (pullObj.data.base.ref == pr_branch && hasLabel) {
             await actionContext.octokit.pulls.update({
                 base: pr_base_branch,
                 owner: github.context.repo.owner,
