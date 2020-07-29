@@ -362,10 +362,11 @@ function stackedPROrchestrator(actionContext) {
                 };
                 const pullObj = yield actionContext.octokit.pulls.get(Object.assign({}, pullParams));
                 let hasLabel = false;
-                let labelBranch = "";
                 for (const label in pullObj.data.labels) {
-                    if (label.lastIndexOf("stacked:", 0) === 0) {
-                        if (label.substring(8) == pr_base_branch) {
+                    const label_name = label;
+                    core.info(`label ${label}`);
+                    if (label_name.lastIndexOf("stacked:", 0) === 0) {
+                        if (label_name.substring(8) == pr_base_branch) {
                             hasLabel = true;
                         }
                     }
