@@ -361,7 +361,16 @@ function stackedPROrchestrator(actionContext) {
                     pull_number: pull_number2
                 };
                 const pullObj = yield actionContext.octokit.pulls.get(Object.assign({}, pullParams));
-                if (pullObj.data.base.ref == pr_branch) {
+                let hasLabel = false;
+                let labelBranch = "";
+                for (const label in pullObj.data.labels) {
+                    if (label.lastIndexOf("stacked:", 0) === 0) {
+                        if (label.substring(8) == pr_branch) {
+                            hasLabel = true;
+                        }
+                    }
+                }
+                if (pullObj.data.base.ref == pr_branch && hasLabel) {
                     yield actionContext.octokit.pulls.update({
                         base: pr_base_branch,
                         owner: github.context.repo.owner,
