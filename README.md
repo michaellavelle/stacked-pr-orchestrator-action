@@ -1,6 +1,18 @@
 # GitHub action to orchestrate the base branches of a stack of chained PRs on merge.
 
-For any PR merge (eg. branch1 -> main) this action will find any other PRs raised on branches of the same fork (eg. branch2 -> branch1) which had the branch of the first PR as their base branch,  and will update their base branch to be the base branch of the merged PR (eg. main)
+For any PR merge (eg. branch1 -> main) this action will find any other PRs raised on branches of the same fork (eg. branch2 -> branch1) which had the branch of the first PR as their base branch,  and will update their base branch to be the base branch of the merged PR (eg. main).
+
+The stacked PRs ( those in a chain behind the first PR ) must be tagged with the label "stacked:<final_targetbranch_name>" to be considered by this action.
+
+For example, if
+
+PR1 requests a merge from branch1 to main.
+PR2 requests a merge from branch2 to branch1
+
+and if PR2 is labeled with "stacked:main" in order to be considered.
+
+On merge of PR1,  PR2 will have it's base branch modified to be main.
+
 
 This allows a chain of PRs to be managed automatically.
 
