@@ -361,6 +361,7 @@ function stackedPROrchestrator(actionContext) {
                     pull_number: pull_number2
                 };
                 const pullObj = yield actionContext.octokit.pulls.get(Object.assign({}, pullParams));
+                core.info(`Mergeable state is ${pullObj.data.mergeable_state}`);
                 let hasLabel = false;
                 for (const label in pullObj.data.labels) {
                     const label_name = pullObj.data.labels[label].name;
