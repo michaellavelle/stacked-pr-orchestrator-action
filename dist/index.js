@@ -354,6 +354,7 @@ function stackedPROrchestrator(actionContext) {
             const { data: pulls } = yield actionContext.octokit.pulls.list(params);
             for (const pull in pulls) {
                 const pull_number2 = pulls[pull].number;
+                const pull_head_branch = pulls[pull].head.ref;
                 core.debug(`found ${pull_number2}`);
                 const pullParams = {
                     owner: github.context.repo.owner,
@@ -379,6 +380,17 @@ function stackedPROrchestrator(actionContext) {
                         pull_number: pull_number2
                     });
                     core.info(`Updated base branch of PR #${pull_number2} from ${pullObj.data.base.ref} to ${pr_base_branch}`);
+                }
+                const pullObjUpdated = yield actionContext.octokit.pulls.get(Object.assign({}, pullParams));
+                core.info(`Mergeable state is ${pullObjUpdated.data.mergeable_state}`);
+                if (pullObjUpdated.data.mergeable_state == 'clean') {
+                    core.info(`Merging ${pr_base_branch} into ${pull_head_branch}`);
+                    actionContext.octokit.repos.merge({
+                        owner: github.context.repo.owner,
+                        repo: github.context.repo.repo,
+                        base: pull_head_branch,
+                        head: pr_base_branch,
+                    });
                 }
             }
         }
