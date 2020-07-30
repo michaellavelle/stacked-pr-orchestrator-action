@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: michaellavelle/stacked-pr-orchestrator-action@initial-commit
+      - uses: michaellavelle/stacked-pr-orchestrator-action@initial-label-criteria
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
